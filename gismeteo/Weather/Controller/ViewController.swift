@@ -9,8 +9,14 @@ import UIKit
 import Alamofire
 
 class ViewController: UIViewController {
+//
+//    var weather = [Weather]()
+    @IBOutlet weak var tableWeatherCity: UITableView!
     
-    var weather = [Weather]()
+        override func viewDidLayoutSubviews() {
+            super.viewDidLayoutSubviews()
+            tableWeatherCity.reloadData()
+        }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +33,7 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "weatherCell", for: indexPath) as? WeatherTableVCCell else { return UITableViewCell() }
+         let cell = tableView.dequeueReusableCell(withIdentifier: "weatherCell", for: indexPath) as! WeatherTableVCCell
         let nameCity = Base.shared.cityPreservation[indexPath.row]
         let cityTypeURL = nameCity.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)  ?? "" // перенести в отдельный файл типа кодирование имени
         cell.configure(nameCity: cityTypeURL, delegate: self)
@@ -36,12 +42,15 @@ extension ViewController: UITableViewDataSource {
 }
 
 extension ViewController: WeatherTableVCDelegate {
-    func deleteButton() {
-        let alert = UIAlertController(title: "title", message: "description", preferredStyle: .alert)
-        let yesBtn = UIAlertAction(title: "Да", style: .default, handler: nil)
+    func deleteButton(nameCity: String) {
+        let alert = UIAlertController(title: "\(nameCity)", message: "Вы действительно хотите удалить", preferredStyle: .alert)
+        let yesBtn = UIAlertAction(title: "Да", style: .default) { _ in
+            Base.shared.deleteCity(nameCity)
+            self.tableWeatherCity.reloadData()
+    }
         let noBtn = UIAlertAction(title: "Нет", style: .cancel, handler: nil)
-        alert.addAction(yesBtn)
         alert.addAction(noBtn)
+        alert.addAction(yesBtn)
         present(alert, animated: true)
     }
 }

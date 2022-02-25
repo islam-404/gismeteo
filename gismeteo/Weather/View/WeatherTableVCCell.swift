@@ -10,7 +10,7 @@ import Alamofire
 import SDWebImage
 
 protocol WeatherTableVCDelegate: AnyObject {
-    func deleteButton()
+    func deleteButton(nameCity: String)
 }
 
 class WeatherTableVCCell: UITableViewCell {
@@ -25,10 +25,6 @@ class WeatherTableVCCell: UITableViewCell {
     @IBOutlet weak var speedWind: UILabel!
     @IBOutlet weak var degWind: UILabel!
     @IBOutlet weak var iconWeather: UIImageView!
-    
-    @IBAction func pressedDeleteButton(_ sender: UIButton) {
-        delegate?.deleteButton()
-    }
     
     
     func configure(nameCity: String, delegate: WeatherTableVCDelegate) {
@@ -47,5 +43,13 @@ class WeatherTableVCCell: UITableViewCell {
             self.iconWeather.sd_setImage(with: URL(string: "https://openweathermap.org/img/wn/\(String(cityWeather.weather[0].icon!))@2x.png"))
         }
     }
+    
+    
+    @IBAction func pressedDeleteButton(_ sender: UIButton) {
+        delegate?.deleteButton(nameCity: nameCity.text!)
+    }
+    
+    
+
 
 }

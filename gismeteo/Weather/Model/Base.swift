@@ -23,6 +23,22 @@ class Base {
         }
     }
     func saveCity(_ nameCity: String){
-        cityPreservation.insert(nameCity, at: 0)
+        print(nameCity)
+        cityPreservation = [nameCity]
+    }
+    
+    func deleteCity(_ nameCity: String){
+        var arrayCity = cityPreservation
+        var indexArray = Int()
+        for (index, value) in arrayCity.enumerated() {
+            if value == nameCity {
+                indexArray = index
+            }
+        }
+        print(indexArray)
+        arrayCity.remove(at: indexArray)
+        defaults.removeObject(forKey: "cityPreservation")
+        cityPreservation = arrayCity
+//        defaults.removeObject(forKey: "cityPreservation")
     }
 }

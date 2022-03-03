@@ -48,8 +48,4 @@ class WeatherTableVCCell: UITableViewCell {
     @IBAction func pressedDeleteButton(_ sender: UIButton) {
         delegate?.deleteButton(nameCity: nameCity.text!)
     }
-    
-    
-
-
 }
